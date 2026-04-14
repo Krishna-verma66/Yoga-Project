@@ -1,10 +1,15 @@
 import './App.css'
+import HeroSec from './components/HeroSec'
+import Navbar from './components/Navbar'
+import Home from './pages/Home'
 
 function App() {
 
   return (
     <>
-      <h1 className='text-3xl font-bold'>Get start</h1>
+      <div className='relative h-screen w-full'>
+        <Home />
+      </div>
     </>
   )
 }
