@@ -6,6 +6,7 @@ const Home = () => {
   return (
     <>
       <Navbar />
+      <hr className='w-[90%] h-0.2 ml-[5%] bg-[#898a8d44]'></hr>
       <HeroSec />
     </>
   )
