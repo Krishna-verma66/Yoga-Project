@@ -3,7 +3,7 @@ package com.yogaApp.YogaVibe.Services;
 import com.yogaApp.YogaVibe.Dtos.RequestDtos.SignupRequest;
 import com.yogaApp.YogaVibe.Dtos.ResponseDtos.SignupResponse;
 
-public interface UserService {
+public interface AuthService {
 
-    SignupResponse createUser(SignupRequest request);
+    SignupResponse registerUser(SignupRequest request);
 }

@@ -1,5 +1,6 @@
 package com.yogaApp.YogaVibe.Models;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,6 +44,8 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    private Instant createdAt = Instant.now();
 
     @PrePersist
     public void prepersist() {
