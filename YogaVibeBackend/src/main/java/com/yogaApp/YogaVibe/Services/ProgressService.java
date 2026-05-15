@@ -1,17 +1,14 @@
 package com.yogaApp.YogaVibe.Services;
 
-import java.util.List;
 
-import com.yogaApp.YogaVibe.Models.Progress;
+public class ProgressService {
 
-public interface ProgressService {
+    // void saveProgress(Long yogaId, Integer watchedSeconds);
 
-    void saveProgress(Long yogaId, Integer watchedSeconds);
+    // List<Progress> getUserProgress();
 
-    List<Progress> getUserProgress();
+    // double getCompletionPercentage(Long yogaId);
 
-    double getCompletionPercentage(Long yogaId);
-
-    int getCurrentStreak();
+    // int getCurrentStreak();
 
 }

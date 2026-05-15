@@ -1,11 +1,9 @@
 package com.yogaApp.YogaVibe.Services;
 
-import java.util.List;
-import java.util.Locale.Category;
 
-public interface CategoryService {
+public class CategoryService {
 
-    List<Category> getAllCategories();
+    // List<Category> getAllCategories();
 
-    Category getCategoryById(Long id);
+    // Category getCategoryById(Long id);
 }

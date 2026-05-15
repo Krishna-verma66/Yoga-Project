@@ -1,17 +1,16 @@
 package com.yogaApp.YogaVibe.Services;
 
-import java.util.List;
-import com.yogaApp.YogaVibe.Models.Yoga;
 
-public interface YogaService {
+public class YogaService {
     
-    List<Yoga> getAllYoga();
+//     List<Yoga> getAllYoga();
 
-    Yoga getYogaById(Long id);
+//     Yoga getYogaById(Long id);
 
-    List<Yoga> getYogaByCategory(Long categoryId);
+//     List<Yoga> getYogaByCategory(Long categoryId);
 
-    List<Yoga> searchYoga(String keyword);
+//     List<Yoga> searchYoga(String keyword);
 
-    List<Yoga> getRecommendedYoga(Long userId);
+//     List<Yoga> getRecommendedYoga(Long userId);
+
 }

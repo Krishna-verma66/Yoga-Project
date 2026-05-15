@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yogaApp.YogaVibe.Dtos.RequestDtos.LoginRequest;
 import com.yogaApp.YogaVibe.Dtos.RequestDtos.SignupRequest;
+import com.yogaApp.YogaVibe.Dtos.ResponseDtos.AuthResponse;
 import com.yogaApp.YogaVibe.Dtos.ResponseDtos.SignupResponse;
 import com.yogaApp.YogaVibe.Services.AuthService;
 
@@ -18,11 +20,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
 
-  private final AuthService authService;
+    private final AuthService authService;
 
-   @PostMapping("/register")
+    @PostMapping("/register")
     public ResponseEntity<SignupResponse> registerUser(@RequestBody SignupRequest signupRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.registerUser(signupRequest));
     }
-    
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(
+            @RequestBody LoginRequest request) {
+
+        return ResponseEntity.ok(
+                authService.login(request));
+    }
 }
