@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
+import { AuthUser } from '../Contexts/UserContext'
 
 const Navbar = () => {
-    const [LoggedIn, setLoggedIn] = useState(false);
-    
-    useEffect(() => {
-        let isToken = !!localStorage.getItem("access-token");
-        if(isToken){
-            setLoggedIn(true);
-        }
-    }, [])
-    
+    const { userData, loading } = useContext(AuthUser);
+
 
     return (
+
         <>
             <div className='w-full h-[10%] py-6 px-20 flex items-center justify-between'>
                 <h2 className='poppins text-2xl font-semibold text-black cursor-pointer'>Yoga<span className='text-[#5787ff]'>Vibe</span></h2>
@@ -43,25 +39,38 @@ const Navbar = () => {
           after:transition-transform after:duration-300 
           hover:after:scale-x-100 hover:after:origin-center">Contact</span>
                 </div>
-                {LoggedIn? <button className='poppins border rounded-lg 
+                {loading ?
+                    <button className='poppins border rounded-lg 
                 p-2 px-8 text-sm 
                 cursor-pointer 
                 hover:bg-[#080808dc] 
                 hover:text-white *
                 hover:border-[#080808dc]
                 transition duration-100'>
-                    Dashboard
-                </button>:<button className='poppins border rounded-lg 
+                        Loading
+                    </button> : userData.is_authenticated ? <Link to='/home'>
+                        <button className='poppins border rounded-lg 
                 p-2 px-8 text-sm 
                 cursor-pointer 
                 hover:bg-[#080808dc] 
                 hover:text-white *
                 hover:border-[#080808dc]
                 transition duration-100'>
-                    Sign In
-                </button>}
+                            Dashboard
+                        </button></Link> : <Link to='/login'>
+                        <button className='poppins border rounded-lg 
+                p-2 px-8 text-sm 
+                cursor-pointer 
+                hover:bg-[#080808dc] 
+                hover:text-white *
+                hover:border-[#080808dc]
+                transition duration-100'>
+                            Sign In
+                        </button>
+                    </Link>}
             </div>
         </>
+
     )
 }
 

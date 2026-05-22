@@ -1,9 +1,11 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import HeroSec from '../components/HeroSec'
-import Dashboard from './Dashboard'
+
+
 
 const Home = () => {
+
   return (
     <>
       <Navbar />
