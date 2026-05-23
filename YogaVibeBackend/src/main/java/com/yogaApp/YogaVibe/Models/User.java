@@ -20,12 +20,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Entity
+@Builder
 @Table(name = "users")
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Data
 public class User implements UserDetails {
 
@@ -36,13 +40,15 @@ public class User implements UserDetails {
     @Column(unique = true, nullable = false)
     private String userCode;
 
+    private boolean enable;
+
     @Column(nullable = false)
     private String name;
 
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String password;
 
     private String profilePicture;
@@ -50,7 +56,10 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    private Instant createdAt = Instant.now();
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
+
+    private Instant createdAt;
 
     @PrePersist
     public void prepersist() {

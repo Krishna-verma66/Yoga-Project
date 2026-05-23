@@ -1,7 +1,7 @@
 package com.yogaApp.YogaVibe.Dtos.ResponseDtos;
 
+import com.yogaApp.YogaVibe.Models.Provider;
 import com.yogaApp.YogaVibe.Models.Role;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AuthResponse {
 
-    private String token;
+    private String accessToken;
 
     private Long id;
 
@@ -22,4 +22,6 @@ public class AuthResponse {
     private String email;
 
     private Role role;
+
+    private Provider provider;
 }

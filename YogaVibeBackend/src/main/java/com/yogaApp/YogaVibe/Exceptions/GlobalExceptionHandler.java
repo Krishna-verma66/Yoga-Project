@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.yogaApp.YogaVibe.Dtos.ApiError;
 import com.yogaApp.YogaVibe.Dtos.ErrorResponse;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
@@ -23,6 +26,17 @@ public class GlobalExceptionHandler {
             CredentialsExpiredException.class
     })
     public ResponseEntity<ApiError> handleAuthException(Exception ex, HttpServletRequest request) {
+        var apiError = ApiError.of(HttpStatus.UNAUTHORIZED.value(), "Unauthorized", ex.getMessage(),
+                request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiError);
+    }
+
+    @ExceptionHandler({
+            ExpiredJwtException.class,
+            MalformedJwtException.class,
+            SignatureException.class
+    })
+    public ResponseEntity<ApiError> handleJwtExceptions(Exception ex, HttpServletRequest request) {
         var apiError = ApiError.of(HttpStatus.BAD_REQUEST.value(), "Bad Request", ex.getMessage(),
                 request.getRequestURI());
         return ResponseEntity.badRequest().body(apiError);
@@ -41,11 +55,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler()
     public ResponseEntity<ErrorResponse> handleResourceNotFoundException(RuntimeException exception) {
         ErrorResponse error = new ErrorResponse(exception.getMessage(), HttpStatus.NOT_FOUND);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-}
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
 
+}

@@ -2,12 +2,17 @@ package com.yogaApp.YogaVibe.Services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.Data;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import com.yogaApp.YogaVibe.Models.User;
 
 import java.security.Key;
 import java.util.Date;
@@ -18,13 +23,18 @@ import java.util.function.Function;
 import javax.crypto.SecretKey;
 
 @Service
+@Data
 public class JwtService {
 
     @Value("${jwt.secret}")
     private String secretKey;
 
-    @Value("${jwt.expiration}")
+    @Value("${jwt.access.expiration}")
     private long jwtExpiration;
+
+    @Value("${jwt.refresh.expiration}")
+     private long refreshExpiration;
+
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -55,12 +65,21 @@ public class JwtService {
                 .expiration(
                         new Date(
                                 System.currentTimeMillis()
-                                        + jwtExpiration
-                        )
-                )
+                                        + jwtExpiration))
                 .signWith(getSignInKey())
                 .compact();
     }
+
+      public String generateRefreshToken(UserDetails userDetails, Long refreshExpiry) {
+
+        return Jwts.builder()
+                .subject(userDetails.getUsername())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + refreshExpiry*1000))
+                .signWith(getSignInKey())
+                .compact();
+    }
+
 
     public boolean isTokenValid(String token, UserDetails userDetails){
 
@@ -93,5 +112,16 @@ public class JwtService {
                 Decoders.BASE64.decode(secretKey);
 
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+//       ---------------------- Generate reset Token -------------
+
+    public String generateResetToken(User user) {
+        return Jwts.builder()
+                .subject(user.getEmail())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 15 * 60 * 1000)) // 15 min
+                .signWith(getSignInKey())
+                .compact();
     }
 }
